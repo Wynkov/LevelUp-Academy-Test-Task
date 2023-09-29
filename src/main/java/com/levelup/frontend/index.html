@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>LevelUp Academy Test Task</title>
+	</head>
+
+	<body bgcolor="lightblue">
+		<h1 align="center" style="color:darkred">LevelUp Academy Test Task</h1>
+		<hr color="darkred">
+		<h3 id="status" align="center" style="color:gray">Status: Waiting</h3>
+		<hr color="darkred"><br>
+		
+		<div id="payment">
+			<br>
+			
+			<label for="card-type">Credit card type:</label>
+			<select name="card-type" id="card-type">
+				<option value="visa">Visa</option>
+				<option value="master">Mastercard</option>
+				<option value="amex">American Express</option>
+			</select>
+			
+			<br><br><br>
+			<label for="card-number">Card number:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+			<input type="number" id="card-number" name="card-number" placeholder="0000111122223333">
+			<br><br>
+			
+			<label for="card-date">Expiration date:&nbsp;</label>
+			<input type="number" id="card-date" name="card-date" placeholder="04/24">
+			<br><br>
+			
+			<label for="card-cvv">CVV:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+			<input type="number" id="card-cvv" name="card-cvv" placeholder="567">
+			<br><br>
+			
+			<button onclick="checkInformation()">Check information</button>
+	
+			<script>
+				function checkInformation() {
+					var api = Java.type("backend.BackendAPI()");
+					alert("API loaded");
+					
+					var type = document.getElementById("card-type").value;
+					var num = document.getElementById("card-number").value;
+					var date = document.getElementById("card-date").value;
+					var cvv = document.getElementById("card-cvv").value;
+					
+					// Change status text and color according to API return value
+					if(api.checkInformation(type, num, date, cvv) == true) {
+						document.getElementById("status").style.color = "green";
+						document.getElementById("status").innerHTML = "Status: Success!";
+					} else {
+						document.getElementById("status").style.color = "red";
+						document.getElementById("status").innerHTML = "Status: Failed!";
+					}
+
+					alert("API function called");
+				}
+				<!-- document.body.innerHTML += "inner"; -->
+				// 		alert("Message");
+			</script>
+		</div>
+	</body>
+</html>
