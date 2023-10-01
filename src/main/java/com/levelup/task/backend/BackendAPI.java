@@ -1,5 +1,7 @@
 package com.levelup.task.backend;
 
+import java.time.LocalDate;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +25,9 @@ public class BackendAPI {
 	 * **/
 	@ResponseBody
 	@GetMapping("/verify")
-	public boolean checkInformation(@RequestParam("type") String card_type, @RequestParam("num") String card_number, @RequestParam("date") String card_date, @RequestParam("cvv") String card_cvv) {
+	public APIResult verifyInformation(@RequestParam("type") String card_type, @RequestParam("num") String card_number, @RequestParam("date") String card_date, @RequestParam("cvv") String card_cvv) {
+		APIResult result = new APIResult();
+
 		// Set number of digits according to card type
 		switch(card_type) {
 			case "amex":
@@ -36,22 +40,36 @@ public class BackendAPI {
 
 				break;
 			default:
-				return false;
+				result.setError(APIErrors.INVALID_CARD_TYPE);
+
+				break;
 		}
 
-		int cNum, cDate, cCvv;
+		String date[] = card_date.split("/");
 
-		// Check if inputs are integers
+		int cNum, cMonth, cYear, cCvv;
+
 		try {
+			// Check if inputs are the correct types of variables
 			cNum = Integer.parseInt(card_number);
-			cDate = Integer.parseInt(card_date);
 			cCvv = Integer.parseInt(card_cvv);
-		} catch(NumberFormatException e) {
-			return false;
-		}
-		
-		// Check ...
 
-		return true;
+			cMonth = Integer.parseInt(date[0]);
+			cYear = Integer.parseInt(date[1]);
+
+			if(cNum < 0 || cMonth < 0 || cYear < 0 || cCvv < 0) result.setError(APIErrors.INVALID_INPUT);
+
+			// Check expiration date
+			int month = LocalDate.now().getMonthValue();
+			int year = LocalDate.now().getYear();
+
+			if(cYear >= year) {
+				if(cMonth < month) result.setError(APIErrors.EXPIRED_CARD);
+			} else result.setError(APIErrors.EXPIRED_CARD);
+		} catch(NumberFormatException e) {
+			result.setError(APIErrors.INVALID_INPUT);
+		}
+
+		return result;
 	}
 }
