@@ -3,14 +3,23 @@ package com.levelup.task.backend;
 import java.security.InvalidParameterException;
 
 public class APIResult {
-	private boolean errorList[] = new boolean[8];
-	private boolean errors;
+	public String activeErrors = "";
 
-	public APIResult() {
+	public boolean errors;
 
-		for(boolean err : errorList) {
-			if(err) errors = true;
+	private boolean errorList[] = new boolean[APIErrors.values().length];
+
+	public void finalize() {
+		for(int i = 0; i < errorList.length; i++) {
+			if(errorList[i]) {
+				if(errors) activeErrors += ", ";
+
+				activeErrors += APIErrors.getText(i);
+				errors = true;
+			}
 		}
+
+		if(!errors) activeErrors = "NONE";
 	}
 
 	public void setError(APIErrors err) {

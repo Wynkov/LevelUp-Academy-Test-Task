@@ -7,21 +7,22 @@ function checkInformation() {
 	const cvv = document.getElementById("card-cvv").value;
 
 	// Verify card information with an API call
-	const result = document.getElementById("status");
+	const status = document.getElementById("status");
 	const api = new XMLHttpRequest();
 
 	api.open("GET", base + "?type=" + type + "&num=" + num + "&date=" + date + "&cvv=" + cvv);
 	api.send();
 	api.onload = function() {
-		alert("Result: " + api.responseText);
+		const response = JSON.parse(api.responseText);
+		const errors = response.errors;
 
 		// Change status text and color according to API return value
-		if (api.responseText == "true") {
-			result.innerHTML = "Status: Success!";
-			result.style.color = "green";
+		if(!errors) {
+			status.innerHTML = "Status: Success!";
+			status.style.color = "green";
 		} else {
-			result.innerHTML = "Status: Failed!";
-			result.style.color = "red";
+			status.innerHTML = "Status: Failed! Error(s): " + response.activeErrors;
+			status.style.color = "red";
 		}
 	}
 }
