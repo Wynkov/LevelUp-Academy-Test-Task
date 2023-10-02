@@ -63,7 +63,7 @@ public class BackendAPI {
 		setCvvDigits(card_type, card_number, result);
 
 		// Check Amex starting digits
-		if(card_type == "amex") if(!card_number.startsWith(amex1) && !card_number.startsWith(amex2)) result.setError(APIErrors.INVALID_CARD_NUMBER);
+		if(card_type.equals("amex")) if(!card_number.startsWith(amex1) && !card_number.startsWith(amex2)) result.setError(APIErrors.INVALID_CARD_NUMBER);
 
 		// Check card number length
 		if(card_number.length() < numMin || card_number.length() > numMax) result.setError(APIErrors.INVALID_CARD_NUMBER);
@@ -98,17 +98,15 @@ public class BackendAPI {
 	}
 
 	private boolean runLuhnAlgorythm(String cardNumber) {
-		int digits = cardNumber.length();
-		int sum = 0;
+		int sum = 0, digits = cardNumber.length();
+		// int lastDigit = cardNumber.charAt(digits - 1) - '0';
 
-		int lastDigit = cardNumber.charAt(digits - 1) - '0';
+		boolean isOdd = false;
 
-		boolean isOdd = true;
-
-		for(int i = digits - 2; i >= 0; i--) {
+		for(int i = digits - 1; i >= 0; i--) {
 			int d = cardNumber.charAt(i) - '0';
 
-			if(isOdd == true) d = d * 2;
+			if(isOdd) d *= 2;
 
 			sum += d / 10;
 			sum += d % 10;
@@ -116,6 +114,6 @@ public class BackendAPI {
 			isOdd = !isOdd;
 		}
 
-		return(sum % 10 == lastDigit);
+		return(sum % 10 == 0); // lastDigit);
 	}
 }
