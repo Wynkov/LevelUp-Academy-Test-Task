@@ -3,9 +3,9 @@
 ## A project made for LevelUp Academy as an admission assignment
 <p align="justify">This is a project made for LevelUp Academy as an admission assigment. The task is to create a
 simple backend API which communicates with the frontend in order to process entered credit card
-information. The API verifies given inputs by checking if they are in the correct format, length etc.
-The expiration date is valid if it is after the present time, while the credit card number validity
-is check using the Luhn algorythm. The status bar shows the result (green for success, red for fail) as
+information. The API verifies given inputs by checking if they are the correct format, length etc.
+The expiration date is valid if it is after the present time, while the credit card number's validity
+is checked using the Luhn algorithm. The status bar shows the result (green for success, red for fail) as
 well as errors, in case the verification fails. The frontend is made using <i>JavaScript</i>,
 while the backend uses <i>Java</i>.</p>
 
@@ -43,7 +43,7 @@ or this message (when running the _Java_ command):
 operable program or batch file.
 ```
 
-it means you don't have _Maven_ and/or _Java_ installed on your system. For a simple guide on how to install _Java_ click
+it means you don't have _Maven_ and/or _Java_ installed (or environment variables setup properly). For a simple guide on how to install _Java_ click
 [here](https://java.tutorials24x7.com/blog/how-to-install-java-17-on-windows), and for _Maven_ instructions click [here](https://phoenixnap.com/kb/install-maven-windows).
 
 ### Step 2: Clone repository
@@ -66,7 +66,7 @@ and get everything ready for use. If everything runs correctly, at the bottom yo
 ### Step 4: Run the project
 If everything went well in **Step 3**, a folder named 'target' should appear. Run `cd target` to enter it through the terminal.
 Once inside the 'target' folder, use `java -jar task-0.0.1-SNAPSHOP.jar` to run the program. After a few seconds it should be
-ready to go.
+ready for use.
 
 > **Important**
 > 
@@ -90,8 +90,12 @@ and click 'Check information' to get the result. Enjoy!
 > 
 > Do NOT put in your real credit card information for security reasons!
 
+
 Example of successful verification:
+
 ![](screenshots/example_success.jpg)
 
+
 Example of failed verification:
+
 ![](screenshots/example_fail.jpg)
